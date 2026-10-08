@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Services & Promos - GLAM SALON</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<nav class="nav">
+    <div>
+        <strong>GLAM SALON</strong>
+        <span>Salon Appointment & Management System</span>
+    </div>
+
+    <div>
+        <a href="{{ url_for('dashboard') }}">Dashboard</a>
+        <a href="{{ url_for('appointments') }}">Appointments</a>
+        <a href="{{ url_for('staff_page') }}">Staff</a>
+        <a href="{{ url_for('services_page') }}">Services</a>
+        <a href="{{ url_for('history') }}">Reports</a>
+        <a href="{{ url_for('logout') }}">Logout</a>
+    </div>
+</nav>
+
+<div class="container">
+
+    <h1>Services & Promos</h1>
+
+    <h2>5 Available Services</h2>
+
+    <div class="service-grid service-grid-images">
+
+        {% set image_map = {
+            'Hair Cut': 'Haircut.png',
+            'Hair Color': 'haircolor.png',
+            'Rebond': 'RebondHair.png',
+            'Manicure': 'Manicure.png',
+            'Spa': 'Spa.png'
+        } %}
+
+        {% for s in services %}
+
+        <div class="service">
+
+            <img
+                class="service-image"
+                src="{{ url_for('static', filename='images/' + image_map.get(s.name, 'banner.jpg')) }}"
+                alt="{{ s.name }}"
+            >
+
+            <h3>{{ s.name }}</h3>
+
+            <p>{{ s.description }}</p>
+
+            <div class="price">
+                ₱{{ "{:,.0f}".format(s.price) }}
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+
+    <h2>Promos</h2>
+
+    <div class="promo-grid promo-grid-images">
+
+        {% set promo_map = {
+            'Rebond': 'rebond promo.jpg',
+            'Manicure': 'manicurepromo.jpg',
+            'Spa': 'Spa Special Promo.png'
+        } %}
+
+        {% for p in promos %}
+
+        <div class="promo">
+
+            <img
+                class="promo-image"
+                src="{{ url_for('static', filename='images/' + promo_map.get(p[0], 'banner.jpg')) }}"
+                alt="{{ p[0] }} Promo"
+            >
+
+            <h3>{{ p[0] }}</h3>
+
+            <div class="price">
+    ₱{{ p[1] }}
+</div>
+            <p>{{ p[2] }}</p>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+</body>
+</html>
