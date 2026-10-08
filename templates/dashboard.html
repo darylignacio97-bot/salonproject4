@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>GLAM SALON Dashboard</title>
+<link rel="stylesheet" href="{{url_for('static',filename='style.css')}}">
+</head>
+<body>
+<nav class="nav">
+  <div class="brand">GLAM SALON <small>Salon Appointment & Management System</small></div>
+  <div class="navlinks">
+    <a href="{{url_for('dashboard')}}">Dashboard</a>
+    <a href="{{url_for('appointments')}}">Appointments</a>
+    <a href="{{url_for('staff_page')}}">Staff</a>
+    <a href="{{url_for('services_page')}}">Services</a>
+    <a href="{{url_for('history')}}">Reports</a>
+    <a href="{{url_for('logout')}}">Logout</a>
+  </div>
+</nav>
+
+<div class="container">
+  <div class="hero hero-image">
+    <img src="{{url_for('static',filename='images/banner.jpg')}}" alt="GLAM SALON">
+  </div>
+
+  <div class="cards">
+    <div class="card"><div class="stat">{{counts.appointments}}</div><b>APPOINTMENTS</b></div>
+    <div class="card"><div class="stat">{{counts.staff}}</div><b>STAFF</b></div>
+    <div class="card"><div class="stat">{{counts.services}}</div><b>SERVICES</b></div>
+  </div>
+
+  <h2>5 Available Services</h2>
+  <div class="service-grid service-grid-images">
+    {% for s in services %}
+      {% set image_map = {
+'Hair Cut':'Haircut.png',
+'Hair Color':'haircolor.png',
+'Rebond':'RebondHair.png',
+'Manicure':'Manicure.png',
+'Spa':'Spa.png'
+      } %}
+      <div class="service">
+        <img class="service-image" src="{{url_for('static',filename='images/' + image_map.get(s.name,'salon_banner.svg'))}}" alt="{{s.name}}">
+        <h3>{{s.name}}</h3>
+        <p>{{s.description}}</p>
+        <div class="price">₱{{"{:,.0f}".format(s.price)}}</div>
+      </div>
+    {% endfor %}
+  </div>
+
+  <h2>Promos</h2>
+  <div class="promo-grid promo-grid-images">
+    {% for p in promos %}
+      {% set promo_map = {
+'Rebond':'rebond promo.jpg',
+'Manicure':'manicurepromo.jpg',
+'Spa':'Spa Special Promo.png'
+} %}
+      <div class="promo">
+        <img class="promo-image" src="{{url_for('static',filename='images/' + promo_map.get(p[0],'salon_banner.svg'))}}" alt="{{p[0]}} Promo">
+        <h3>{{p[0]}}</h3>
+        <div class="price">{{p[1]}}</div>
+        <p>{{p[2]}}</p>
+      </div>
+    {% endfor %}
+  </div>
+
+  <h2>Recent Appointments</h2>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Customer</th><th>Date</th><th>Time</th><th>Service</th><th>Status</th></tr>
+      {% for x in recent %}
+      <tr><td>{{x.customer}}</td><td>{{x.date}}</td><td>{{x.time}}</td><td>{{x.service}}</td><td>{{x.status}}</td></tr>
+      {% endfor %}
+    </table>
+  </div>
+</div>
+</body>
+</html>
